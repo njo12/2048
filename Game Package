@@ -1,0 +1,796 @@
+package game_2048;
+
+import java.util.*;
+
+public class Game
+{
+    int[][] grid;
+    
+    public Game()
+    {
+        grid = new int[4][4];
+    }
+    
+    public void play()
+    {
+        Scanner in = new Scanner(System.in);
+        System.out.println("\tWelcome to our game!");
+        System.out.println("\t       2048!!\n");
+        System.out.println("-Nathanael Oh and Jonathan Kim\n\n");
+        System.out.println("1. The objective of the game is to get the number of 2048.\n");
+        System.out.println("2. Using the letter w, a, s, and d, move the grid \nup, left, down, and right respectively\n");
+        System.out.println("3. When two boxes of the same value combined, the \nvalue is doubled in one box\n");
+        System.out.println("4. You win the game by adding enough values to reach 2048\n");
+        System.out.println("5. However if the grid is full and no moves can be \nmade, you lose the game..\n");
+        System.out.println("Good luck!\nHave fun! :]");
+        System.out.println("Press enter to continue:");
+        in.nextLine();
+        
+        putRandom24();
+        putRandom24();
+        print();
+        while(check2048() && !full())
+        {
+            String str = input();
+            str = str.toLowerCase();
+            
+            int[][] mat = new int[4][4];
+            for(int i = 0; i < 3; i++)
+            {
+                mat[i] = grid[i].clone();
+            }
+            boolean d = false;
+            if(str.equals("w"))
+            {
+                for(int i = 0; i < 3; i++)
+                {
+                    mat[i] = grid[i].clone();
+                }
+                for(int w =0; w < 4; w++)
+                {
+                    for(int z = 0; z < 4; z++)
+                    {
+                        int x = mat[w][z];
+                        int y = grid[w][z];
+                        if(x == 0 && y > 0)
+                        {
+                            mat[w][z] = 0 + 1 - 1 + y;
+                        }
+                    }
+                }
+                int[][] temp = checkW(mat);
+                d = false;
+                boolean diff = false;
+                for(int g = 0; g < 4; g++)
+                {
+                    for(int h =0; h < 4; h++)
+                    {
+                        int x = temp[g][h];
+                        int y = grid[g][h];
+                        if(x != y)
+                        {
+                            diff = true;
+                        }
+                    }
+                }
+                if(diff)
+                {
+                    d = true;
+                }
+                moveW();
+                if(d)
+                {
+                    putRandom24();
+                }
+                print();
+            }
+            else if(str.equals("s"))
+            {
+                for(int i = 0; i < 3; i++)
+                {
+                    mat[i] = grid[i].clone();
+                }
+                for(int w =0; w < 4; w++)
+                {
+                    for(int z = 0; z < 4; z++)
+                    {
+                        int x = mat[w][z];
+                        int y = grid[w][z];
+                        if(x == 0 && y > 0)
+                        {
+                            mat[w][z] = 0 + 1 - 1 + y;
+                        }
+                    }
+                }
+                int[][] temp = checkS(mat);
+                d = false;
+                boolean diff = false;
+                for(int g = 0; g < 4; g++)
+                {
+                    for(int h =0; h < 4; h++)
+                    {
+                        int x = temp[g][h];
+                        int y = grid[g][h];
+                        if(x != y)
+                        {
+                            diff = true;
+                        }
+                    }
+                }
+                if(diff)
+                {
+                    d = true;
+                }
+                moveS();
+                if(d)
+                {
+                    putRandom24();
+                }
+                print();
+            }
+            else if(str.equals("a"))
+            {
+                 for(int i = 0; i < 3; i++)
+                {
+                    mat[i] = grid[i].clone();
+                }
+                for(int w =0; w < 4; w++)
+                {
+                    for(int z = 0; z < 4; z++)
+                    {
+                        int x = mat[w][z];
+                        int y = grid[w][z];
+                        if(x == 0 && y > 0)
+                        {
+                            mat[w][z] = 0 + 1 - 1 + y;
+                        }
+                    }
+                }
+                int[][] temp = checkA(mat);
+                d = false;
+                boolean diff = false;
+                for(int g = 0; g < 4; g++)
+                {
+                    for(int h =0; h < 4; h++)
+                    {
+                        int x = temp[g][h];
+                        int y = grid[g][h];
+                        if(x != y)
+                        {
+                            diff = true;
+                        }
+                    }
+                   
+                }
+                if(diff)
+                {
+                    d = true;
+                }
+                moveA();
+                if(d)
+                {
+                    putRandom24();
+                }
+                print();
+            }
+            else if (str.equals("d"))
+            {
+                for(int i = 0; i < 3; i++)
+                {
+                    mat[i] = grid[i].clone();
+                }
+                for(int w =0; w < 4; w++)
+                {
+                    for(int z = 0; z < 4; z++)
+                    {
+                        int x = mat[w][z];
+                        int y = grid[w][z];
+                        if(x == 0 && y > 0)
+                        {
+                            mat[w][z] = 0 + 1 - 1 + y;
+                        }
+                    }
+                }
+                int[][] temp = checkD(mat);
+                d = false;
+                boolean diff = false;
+                for(int g = 0; g < 4; g++)
+                {
+                    for(int h =0; h < 4; h++)
+                    {
+                        int x = temp[g][h];
+                        int y = grid[g][h];
+                        if(x != y)
+                        {
+                            diff = true;
+                        }
+                    }
+                }
+                if(diff)
+                {
+                    d = true;
+                }
+                moveD();
+                if(d)
+                {
+                    putRandom24();
+                }
+                print();
+            }
+            else
+            {
+                System.out.println("Try again..");
+                
+            }
+            if(full() || !check2048())
+            {
+                break;
+            }
+        }
+        if(!check2048())
+        {
+            System.out.println("You win!");
+        }
+        else if (full()){
+            
+            System.out.println("You lose");
+        }
+    }
+    
+    public void prints(int[][] grid)
+    {
+        for(int i = 0; i < 4; i++)
+        {
+            for(int j = 0; j < 4; j++)
+            {
+                if(grid[i][j] != 0)
+                {
+                    System.out.print(grid[i][j] + "\t");
+                }
+                else
+                {
+                    System.out.print("0\t");
+                }
+            }
+            System.out.println();
+        }
+    }
+    public boolean equal(int[][] one, int[][] two)
+    {
+        boolean ch = true;
+        for(int i = 0; i < 4; i++)
+        {
+            for(int j = 0; j < 4; j++)
+            {
+                if(one[i][j] != two[i][j])
+                {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+    
+    public void moveW()
+    {
+        int[] clone= new int[4];
+        for(int i = 0; i<4; i++)
+        {
+            for(int row = 0; row<grid.length; row++)
+            {
+                clone[row] = grid[row][i];
+            }
+            for(int k = 1; k<clone.length; k++)
+            {
+                int counter = k;
+                while(counter!= 0 && clone[counter-1] == 0)
+                {
+                    clone[counter-1] = clone[counter];
+                    clone[counter] = 0;
+                    counter--;
+                }
+            }
+            for(int j = 1; j<clone.length; j++)
+            {
+                if(clone[j-1] == clone[j])
+                {
+                    clone[j-1] *= 2;
+                    clone[j] = 0;
+                }
+            }
+            for(int k = 1; k<clone.length; k++)
+            {
+                int counter = k;
+                while(counter!= 0 && clone[counter-1] == 0)
+                {
+                    clone[counter-1] = clone[counter];
+                    clone[counter] = 0;
+                    counter--;
+                }
+            }
+            for(int l = 0; l<clone.length; l++)
+            {
+                grid[l][i] = clone[l];
+            }
+        }
+    }
+    
+    public void moveS()
+    {
+        int[] clone= new int[4];
+        for(int i = 3; i>=0; i--)
+        {
+            for(int row = 0; row<grid.length; row++)
+            {
+                clone[row] = grid[row][i];
+            }
+            for(int k = 2; k>= 0; k--)
+            {
+                int counter = k;
+                while(counter != 3 && clone[counter+1] == 0)
+                {
+                    clone[counter+1] = clone[counter];
+                    clone[counter] = 0;
+                    counter++;
+                }
+            }
+            for(int j = 2; j>= 0; j--)
+            {
+                if(clone[j+1] == clone[j])
+                {
+                    clone[j+1] *= 2;
+                    clone[j] = 0;
+                }
+            }
+            for(int k = 2; k>= 0; k--)
+            {
+                int counter = k;
+                while(counter != 3 && clone[counter+1] == 0)
+                {
+                    clone[counter+1] = clone[counter];
+                    clone[counter] = 0;
+                    counter++;
+                }
+            }
+            for(int l = 0; l<clone.length; l++)
+            {
+                grid[l][i] = clone[l];
+            }
+        }
+    }
+    
+    public void moveA()
+    {
+        for(int row = 0; row<grid.length; row++)
+        {
+            int[] clone = grid[row].clone();
+            for(int i = 1; i<clone.length; i++)
+            {
+                int counter = i;
+                while(counter != 0 && clone[counter-1] == 0)
+                {
+                    clone[counter-1] = clone[counter];
+                    clone[counter] = 0;
+                    counter--;
+                }
+            }
+            for(int i = 1; i<clone.length; i++)
+            {
+                if(clone[i-1] == clone[i])
+                {
+                    clone[i-1] *= 2;
+                    clone[i] = 0;
+                }
+            }
+            for(int i = 1; i<clone.length; i++)
+            {
+                int counter = i;
+                while(counter != 0 && clone[counter-1] == 0)
+                {
+                    clone[counter-1] = clone[counter];
+                    clone[counter] = 0;
+                    counter--;
+                }
+            }
+            grid[row] = clone;
+        }
+    }
+    
+    public void moveD()
+    {
+        for(int i = 0; i < grid.length; i++)
+        {
+            int[] clone = grid[i].clone();
+            for(int k = 2; k >= 0; k--)
+            {
+                int counter = k;
+                while(counter != 3 && clone[counter + 1] == 0)
+                {
+                    clone[counter+1] = clone[counter];
+                    clone[counter] = 0;
+                    counter++;
+                }
+            }
+            for(int j = 2; j >= 0; j--)
+            {
+                if(clone[j] == clone[j+1])
+                {
+                    clone[j+1] *= 2;
+                    clone[j] = 0;
+                }
+            }
+            for(int k = 2; k >= 0; k--)
+            {
+                int counter = k;
+                while(counter != 3 && clone[counter + 1] == 0)
+                {
+                    clone[counter+1] = clone[counter];
+                    clone[counter] = 0;
+                    counter++;
+                }
+            }
+            grid[i] = clone;
+        }
+    }
+
+
+    public String input()
+    {
+        Scanner in = new Scanner(System.in);
+        while(true)
+        {
+            System.out.print("Enter w, a, s, or d: ");
+            String y = in.nextLine();
+            if(y.length() > 0)
+            {
+                char x = y.charAt(0);
+                if(x == 'w' || x == 'a' || x == 's' || x == 'd')
+                {
+                    return y;
+                }
+                
+            }
+            else
+            {
+                System.out.println("Please try again.");
+            }
+        }
+    }
+    
+    public boolean isOpen(int[][] mat, int row, int col)
+    {
+        if(mat[row][col] == 0)
+        {
+            return true;
+        }
+        return false;
+    }
+    public void putRandom24()
+    {
+        Scanner in = new Scanner(System.in);
+        Random rand = new Random();
+        int which = rand.nextInt(10);
+        int val = 2;
+        if(which == 0)
+        {
+            val = 4;
+        }
+        while(true)
+        {
+            int row = rand.nextInt(4);
+            int col = rand.nextInt(4);
+            //System.out.println(row + " " + col);
+            if(isOpen(grid, row, col))
+            {
+                grid[row][col] = val;
+                //print();
+                break;
+            }
+            //System.out.println("Enter...");
+            //in.nextLine();
+        }
+    }
+    
+    public boolean check2048()
+    {
+        for(int i = 0; i < 4; i++)
+        {
+            for(int j = 0; j < 4; j++)
+            {
+                if(grid[i][j] == 2048)
+                {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+    
+    public void print()
+    {
+        for(int i = 0; i < 4; i++)
+        {
+            for(int j = 0; j < 4; j++)
+            {
+                if(grid[i][j] != 0 && grid[i][j] < 10)
+                {
+                    if(j == 0)
+                        System.out.print("|  "+grid[i][j] + "  |");
+                    else
+                        System.out.print("   "+grid[i][j] + "  |");
+                }
+                else if (grid[i][j] > 10 && grid[i][j] < 100)
+                {
+                    if(j == 0)
+                        System.out.print("|  "+grid[i][j] + "  |");
+                    else
+                        System.out.print("  "+grid[i][j] + "  |");
+                }
+                else if (grid[i][j] > 100 && grid[i][j] < 1000)
+                {
+                    if(j == 0)
+                        System.out.print("|  "+grid[i][j] + "  |");
+                    else
+                        System.out.print("  "+grid[i][j] + " |");
+                }
+                else if (grid[i][j] > 1000)
+                {
+                	if(j == 0)
+                        System.out.print("|  "+grid[i][j] + " |");
+                    else
+                        System.out.print(" "+grid[i][j] + " |");
+                }
+                else
+                {
+                    if(j == 0)
+                        System.out.print("|     |");
+                    else
+                        System.out.print("      |");
+                }
+            }
+            System.out.println();
+            if(i!=3)
+                System.out.println("-----------------------------");
+        }
+        System.out.println();
+    }
+
+    
+    public boolean full()
+    {
+        int[][] mat = new int[4][4];
+        for(int i = 0; i < 4; i++)
+        {
+            mat[i] = grid[i].clone();
+        }
+        /*System.out.println("___________________");
+        print();
+        prints(mat);
+        System.out.println("_______________________");*/
+        mat = checkS(mat);
+        for(int k = 0; k < 4; k++)
+        {
+            for(int l = 0; l < 4; l++)
+            {
+                int x= mat[k][l];
+                int y = grid[k][l];
+                if(x != (0 + y))
+                {
+                    return false;
+                }
+            }
+        }
+        mat = checkW(mat);
+        for(int k = 0; k < 4; k++)
+        {
+            for(int l = 0; l < 4; l++)
+            {
+                int x= mat[k][l];
+                int y = grid[k][l];
+                if(x != (0 + y))
+                {
+                    return false;
+                }
+            }
+        }
+        mat = checkA(mat);
+        for(int k = 0; k < 4; k++)
+        {
+            for(int l = 0; l < 4; l++)
+            {
+                int x= mat[k][l];
+                int y = grid[k][l];
+                if(x != (0 + y))
+                {
+                    return false;
+                }
+            }
+        }
+        mat = checkD(mat);
+        //prints(mat);
+        //System.out.println("__________________");
+        boolean ch = true;
+        for(int k = 0; k < 4; k++)
+        {
+            for(int l = 0; l < 4; l++)
+            {
+                int x= mat[k][l];
+                int y = grid[k][l];
+                if(x != (0 + y))
+                {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
+    
+    public int[][] checkW(int[][] grid)
+    {
+        int[] clone= new int[4];
+        for(int i = 0; i<4; i++)
+        {
+            for(int row = 0; row<grid.length; row++)
+            {
+                clone[row] = grid[row][i];
+            }
+            for(int k = 1; k<clone.length; k++)
+            {
+                int counter = k;
+                while(counter!= 0 && clone[counter-1] == 0)
+                {
+                    clone[counter-1] = clone[counter];
+                    clone[counter] = 0;
+                    counter--;
+                }
+            }
+            for(int j = 1; j<clone.length; j++)
+            {
+                if(clone[j-1] == clone[j])
+                {
+                    clone[j-1] *= 2;
+                    clone[j] = 0;
+                }
+            }
+            for(int k = 1; k<clone.length; k++)
+            {
+                int counter = k;
+                while(counter!= 0 && clone[counter-1] == 0)
+                {
+                    clone[counter-1] = clone[counter];
+                    clone[counter] = 0;
+                    counter--;
+                }
+            }
+            for(int l = 0; l<clone.length; l++)
+            {
+                grid[l][i] = clone[l];
+            }
+        }
+        return grid;
+    }
+    
+    public int[][] checkS(int[][] grid)
+    {
+        int[] clone= new int[4];
+        for(int i = 3; i>=0; i--)
+        {
+            for(int row = 0; row<grid.length; row++)
+            {
+                clone[row] = grid[row][i];
+            }
+            for(int k = 2; k>= 0; k--)
+            {
+                int counter = k;
+                while(counter != 3 && clone[counter+1] == 0)
+                {
+                    clone[counter+1] = clone[counter];
+                    clone[counter] = 0;
+                    counter++;
+                }
+            }
+            for(int j = 2; j>= 0; j--)
+            {
+                if(clone[j+1] == clone[j])
+                {
+                    clone[j+1] *= 2;
+                    clone[j] = 0;
+                }
+            }
+            for(int k = 2; k>= 0; k--)
+            {
+                int counter = k;
+                while(counter != 3 && clone[counter+1] == 0)
+                {
+                    clone[counter+1] = clone[counter];
+                    clone[counter] = 0;
+                    counter++;
+                }
+            }
+            for(int l = 0; l<clone.length; l++)
+            {
+                grid[l][i] = clone[l];
+            }
+        }
+        return grid;
+    }
+    
+    public int[][] checkA(int[][] grid)
+    {
+        for(int row = 0; row<grid.length; row++)
+        {
+            int[] clone = grid[row].clone();
+            for(int i = 1; i<clone.length; i++)
+            {
+                int counter = i;
+                while(counter != 0 && clone[counter-1] == 0)
+                {
+                    clone[counter-1] = clone[counter];
+                    clone[counter] = 0;
+                    counter--;
+                }
+            }
+            for(int i = 1; i<clone.length; i++)
+            {
+                if(clone[i-1] == clone[i])
+                {
+                    clone[i-1] *= 2;
+                    clone[i] = 0;
+                }
+            }
+            for(int i = 1; i<clone.length; i++)
+            {
+                int counter = i;
+                while(counter != 0 && clone[counter-1] == 0)
+                {
+                    clone[counter-1] = clone[counter];
+                    clone[counter] = 0;
+                    counter--;
+                }
+            }
+            grid[row] = clone;
+        }
+        return grid;
+    }
+    
+    public int[][] checkD(int[][] grid)
+    {
+        for(int i = 0; i < grid.length; i++)
+        {
+            int[] clone = grid[i].clone();
+            for(int k = 2; k >= 0; k--)
+            {
+                int counter = k;
+                while(counter != 3 && clone[counter + 1] == 0)
+                {
+                    clone[counter+1] = clone[counter];
+                    clone[counter] = 0;
+                    counter++;
+                }
+            }
+            for(int j = 2; j >= 0; j--)
+            {
+                if(clone[j] == clone[j+1])
+                {
+                    clone[j+1] *= 2;
+                    clone[j] = 0;
+                }
+            }
+            for(int k = 2; k >= 0; k--)
+            {
+                int counter = k;
+                while(counter != 3 && clone[counter + 1] == 0)
+                {
+                    clone[counter+1] = clone[counter];
+                    clone[counter] = 0;
+                    counter++;
+                }
+            }
+            grid[i] = clone;
+        }
+        return grid;
+    }
+
+}
+
